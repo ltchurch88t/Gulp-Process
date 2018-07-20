@@ -1,0 +1,168 @@
+//////////////////////////////////////
+///////Speak Gulp Starter Guide///////
+///////     July 18, 2018      ///////
+//////////////////////////////////////
+
+
+
+There are video companions for all the processes below to help set up, maintain, and run the local development environment at the link provided here:
+https://www.youtube.com/playlist?list=PLDV6GboNnr-GIFbkHFyk7GJaxwzcx4kGw
+
+
+
+Table of Contents
+--------------------
+1 - Necessary Equipment to Run
+2 - Gulp File Changes to New Project
+3 - Starting the Development Server
+4 - Adding Gulp to Older Projects
+5 - Adding Custom Gulp/Npm Tasks
+6 - Adjusting File Paths in gulpfile.js
+
+
+=================================
+1) Necessary Equipment to Run
+=================================
+
+In order to run the development environment several items need to be downloaded to get everything set up. VS Code is the primary IDE for our development process as it allows for better Gulp integration, live server hosting, and realtime collaboration. There are several links below that point to the necessary tools to be downloaded and also listed below are several scripts that must be run to set up the environment. The order in which to install everything is specific and must be followed precisely in order to avoid errors.
+
+1) Download VS Code - https://code.visualstudio.com/download
+2) Download NodeJS - https://nodejs.org/en/
+3) Run these scripts in this order
+    1 - sudo npm install --unsafe-perm node-sass
+    2 - sudo npm install gulp gulp-ext-replace gulp-pug gulp-git run-sequence gulp-sass-lint gulp-notify gulp-plumber gulp-connect http-proxy-middleware gulp-cache-bust gulp-imagemin gulp-postcss autoprefixer csswring gulp-htmlmin gulp-uglify
+    3 - sudo npm install gulp-sass
+4) Download VS Code extensions and Google Chrome Extension
+    1 - VS Live Share by Microsoft
+    2 - Live Server by Ritwick dey
+    3 - Live Server Chrome Extension by RitwickDey
+
+
+
+=========================================
+2) Gulp File Changes to Run New Project
+=========================================
+
+In gulpfile.js there are two items to change to begin development. The first of which is:
+
+var siteID = XXXX;
+
+The 'XXXX' will be replaced with the siteID number for the sitewrench project. For example cowork.sitewrench.com has a siteID of 2577 so:
+
+var siteID = 2577;
+
+The next item to change is the sitewrench or live address slug to point the development server to the appropriate address:
+
+var options = {
+  target: 'http://XXXXXXXXXX.sitewrench.com', // target host
+  changeOrigin: true // needed for virtual hosted sites
+};
+
+The 'XXXXXXXXX' will need to be replaced with the name of the project being worked on. As an example, for Cowork it will become http://cowork.sitewrench.com
+This will also work with a live site. In this case replace the entire web address with the designated url.
+
+Ensure that the head.inc file has the link tag indicated below to allow for hosting of a live style sheet. This link tag must be below the sitewrench hosted stylesheet tag.
+
+<link href="http://127.0.0.1:5500/CSS/master.css" rel="stylesheet" type="text/css" />
+
+
+
+
+====================================
+3) Starting the Development Server
+====================================
+
+Once the above changes have been made to gulpfile.js, starting the development server for live-reloading can occur. The following steps are:
+
+1) Under Gulp Tasks bar on left hand side of VS Code, Double click "start" task to load dev server
+2) On the bottom right hand side of VS Code there is a button titled "Go Live", click this button to start the live reload server
+3) In google chrome start the live server extension and adjust the actual server address port to the project siteID, i.e. http://localhost:XXXX, where 'XXXX' is the siteID from the above directions.
+4) Begin coding
+
+
+
+
+====================================
+4) Adding Gulp to an Older Projects
+====================================
+
+When adding gulp to an older project the process is very similar to starting a new project from above. However, in this case you will need to import two files from the Speak Starter Files into the old project. The first files are:
+
+file: gulpfile.js
+folder: sass-lint
+
+gulpfile.js is placed in the main directory of the project and the above instructions for starting a new project then apply.
+The sass-lint folder must be placed in the CSS folder of the project to allow for syntax checking of scss files.
+No new changes need to be made to any other files and the process of starting the development server is the same as all other projects.
+
+
+
+
+=====================================
+5) Adding Custom Gulp Tasks to File
+=====================================
+
+Custom npm and gulp tasks can be added to each gulp file as needed although proper documentation for the next designer/developer is needed to ensure that everything will work properly. In the starter files a file is included to provide documentation to the specific gulp file used in the project as well as the use of files. For example this file will contain information regarding the use of .pug files, custom npm/gulp scripts, as well as the necessary commands to install and find documentation on those gulp tasks. The content below should serve as a guideline for appending the file if necessary. If this is an older project and no documentation has been created it is best practice to add the file and continue documentation as below.
+
+The file name, which can be found in the main directory, is: Gulp-Maintenance
+
+Within Gulp-Maintenance the format should follow:
+
+
+---------------------------------------------------------------
+Use of Pug Files for development: [Yes/No]
+
+Custom Npm/Gulp Tasks used:
+    {
+        example gulp task,
+        example npm task
+    }
+
+Documentation for gulp/npm tasks:
+    http://npmjs.com
+
+Installation scripts for above tasks:
+    sudo npm install example-gulp-task example-npm-task
+
+
+Other Notes regarding gulp development:
+    Any extra notes will go here
+
+
+
+---------------------------------------------------------------
+All documentation pertinet to the development workflow will go in the above document and maintaining this documentation will not only help avoid confusion but will help the designers have a central point for reference.
+
+
+
+
+========================================
+6) Adjusting File Paths in gulpfile.js
+========================================
+
+There are several locations throughout the gulpfile that indicate specific file paths where files can be found either for compiling or providing source files from. Any of these file paths can be edited to suit individuals needs and will only be applied to the specific project being worked on. This will also not cause any problems for future designers to run gulp tasks as everything is persistent to the single workspace being used. As a best practice, documenting these changes in the aforementioned Gulp-Maintenance file is much appreciated. Some example file paths that can be changed are listed as follows, (this is not exhaustive but serves more as a reference):
+
+gulp.task('styles', function() {
+  return gulp.src('css/master.scss') <----- Can be changed to any other file or directory
+    .pipe(plumber({errorHandler: onError}))
+    .pipe(sass())
+    .pipe(postcss(processors))
+    .pipe(gulp.dest('css')); <---- Destination of master.css file can be changed as well
+});
+
+
+gulp.task('image-min', function() {
+    gulp.src('CSS/images/*') <----- Can be changed to any other file or directory
+        .pipe(imagemin([
+          imagemin.gifsicle({interlaced: true}),
+          imagemin.jpegtran({progressive: true}),
+          imagemin.optipng({optimizationLevel: 5}),
+          imagemin.svgo({
+              plugins: [
+                  {removeViewBox: true},
+                  {cleanupIDs: false}
+              ]
+          })
+        ]))
+        .pipe(gulp.dest('CSS/images')) <---- Destination of compressed image files can be changed as well
+});

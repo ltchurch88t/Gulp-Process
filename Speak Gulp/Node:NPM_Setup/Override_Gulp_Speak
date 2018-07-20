@@ -1,0 +1,1 @@
+sudo npm install gulp gulp-ext-replace gulp-pug gulp-git run-sequence gulp-sass-lint gulp-notify gulp-plumber gulp-connect http-proxy-middleware gulp-cache-bust gulp-imagemin gulp-postcss autoprefixer csswring gulp-htmlmin gulp-uglify

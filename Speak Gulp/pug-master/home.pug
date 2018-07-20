@@ -1,0 +1,37 @@
+<%@ Master Language="VB" Inherits="BaseMasterPage"%>
+doctype html  
+html(lang='en').no-js
+    head(runat='server')
+        <!-- HEAD- ->
+        <!-- #include file ="includes/head.inc" -->
+    body.home
+        form(runat='server')
+            asp:contentplaceholder#cphSiteBar(runat='server' visible='true')
+
+            <!-- Sidecar Nav -->
+            <!-- #include file ="includes/sidecar.inc" -->
+
+            <!-- HEADER -->
+            <!-- #include file ="includes/header.inc" -->
+
+            div#siteWrapper.slide-left(style='overflow:hidden;')
+                div.body-overlay
+
+                asp:ContentPlaceHolder#cphSiteSearch(runat='server' visible='true')
+                asp:ContentPlaceHolder#cphPageBody(runat='server' visible='true')
+                div#inc(live-file="http://localhost:3000/masterpages/includes/home.inc")
+                    <!-- HOME CONTENT -->
+                    <!-- #include file ="includes/home.inc" -->
+                script(src='/SiteFiles/XXXX/js/remove-reload.js')
+            <!-- FOOTER -->
+            <!-- #include file ="includes/footer.inc" -->
+            <!-- SCRIPTS -->
+            <!-- #include file ="includes/scripts.inc" -->
+        script liveINC();
+        script(src='/SiteFiles/XXXX/js/helper.js')
+
+<!--Add Unused Content Place Holders Below This Line -->
+asp:ContentPlaceHolder#cphListSignup(runat='server' visible='false')
+asp:ContentPlaceHolder#cphSideMenu(runat='server' visible='false')
+asp:ContentPlaceHolder#cphLevel2Menu(runat='server' visible='false')
+asp:ContentPlaceHolder#cphBreadCrumb(runat='server' visible='false')
